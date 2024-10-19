@@ -1,2 +1,6 @@
 ---
 # vars file for cs2-server-role
+required_vars:
+  - srcds_token
+  - cs2_rconpw
+  - cs2_pw

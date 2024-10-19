@@ -1,0 +1,7 @@
+- name: Create a directory for cs2 data
+  ansible.builtin.file:
+    path: "{{ cs2_data_dir }}"
+    state: directory
+    owner: "1000"
+    group: "1000"
+    mode: '0755'

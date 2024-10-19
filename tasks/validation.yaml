@@ -1,0 +1,15 @@
+- name: Validate required variables
+  fail:
+    msg: "{{ item }} is not set or is empty."
+  when: 
+    - lookup('vars', item) is not defined or lookup('vars', item) is none or lookup('vars', item) | length == 0
+  loop: "{{ required_vars }}"
+
+- name: Validate TV
+  fail:
+    msg: "{{ item }} is not set or is empty. But tv_enable was set to 1"
+  when: 
+    - tv_enable is defined and tv_enable == 1 and (lookup('vars', item) is not defined or lookup('vars', item) is none or lookup('vars', item) | length == 0)
+  loop: 
+    - tv_pw
+    - tv_relay_pw

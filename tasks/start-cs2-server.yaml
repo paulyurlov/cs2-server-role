@@ -1,0 +1,16 @@
+- name: Check if the container is running
+  ansible.builtin.command: docker ps --filter "name={{ container_name }}" 
+  register: container_check
+  ignore_errors: true  
+  changed_when: false
+
+- name: Render docker-compose.yaml from template
+  ansible.builtin.template:
+    src: docker-compose.yaml.j2
+    dest: /tmp/cs2-docker-compose.yaml
+  when: container_name not in container_check.stdout or restart_cs2_server
+
+- name: Run Docker Compose
+  ansible.builtin.shell: |
+    docker-compose -f /tmp/cs2-docker-compose.yaml up -d
+  when: container_name not in container_check.stdout or restart_cs2_server

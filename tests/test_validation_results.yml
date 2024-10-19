@@ -1,0 +1,40 @@
+---
+- name: Test Validation Results
+  hosts: localhost
+  gather_facts: no
+  vars:
+    # Test case 1: Correct variables
+    required_vars:
+      - var1
+      - var2
+      - var3
+    var1: "value1"  # Valid
+    var2: "value2"  # Valid
+    var3: "value3"  # Valid
+    tv_pw: "lolkek"
+    tv_relay_pw: "lolkeke"
+
+
+    var1_incorrect: ""  # Invalid (should trigger failure)
+    var2_incorrect: "value2"  # Valid
+    var3_incorrect: "value3"  # Valid
+  
+  ignore_errors: true  # Allow the playbook to continue even if it fails
+
+  tasks:
+    - name: Validate correct variables
+      import_tasks: ../tasks/validation.yaml
+
+    - name: Validate incorrect variables
+      import_tasks: ../tasks/validation.yaml
+      vars:
+        var1: "{{ var1_incorrect }}"  # Pass the incorrect variable
+        var2: "{{ var2_incorrect }}"
+        var3: "{{ var3_incorrect }}"
+
+    - name: Validate notset variables
+      import_tasks: ../tasks/validation.yaml
+      vars:
+        var1: 
+        var2: "{{ var2_incorrect }}"
+        var3: "{{ var3_incorrect }}"

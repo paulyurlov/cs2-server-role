@@ -1,2 +1,13 @@
 ---
 # tasks file for cs2-server-role
+- name: Validate the environment
+  ansible.builtin.import_tasks: validation.yaml
+
+- name: Create CS2 directory
+  ansible.builtin.import_tasks: create-cs2-dir.yaml
+
+- name: Install Docker
+  ansible.builtin.import_tasks: install-docker.yaml
+
+- name: Start CS2 server
+  ansible.builtin.import_tasks: start-cs2-server.yaml

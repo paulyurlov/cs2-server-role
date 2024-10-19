@@ -1,0 +1,5 @@
+.DS_store
+myplay.yaml
+inventory
+ansible.cfg
+requirements.yml

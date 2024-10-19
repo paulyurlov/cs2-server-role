@@ -1,0 +1,61 @@
+services:
+  cs2-server:
+    image: joedwards32/cs2
+    container_name: {{ container_name }}
+    environment:
+      # Server configuration
+      - SRCDS_TOKEN={{ srcds_token }}  
+      - CS2_SERVERNAME={{ cs2_servername}} 
+      - STEAMAPPVALIDATE={{ steamappvalidate}}
+      - CS2_CHEATS={{ cs2_cheats}}
+      - CS2_PORT={{ cs2_port }}
+      - CS2_SERVER_HIBERNATE={{ cs2_server_hibernate }} 
+      - CS2_RCON_PORT={{ cs2_rcon_port }}  
+      - CS2_LAN={{ cs2_lan }}
+      - CS2_RCONPW={{ cs2_rconpw }} 
+      - CS2_PW={{ cs2_pw }} 
+      - CS2_MAXPLAYERS={{ cs2_maxplayers }} 
+      - CS2_ADDITIONAL_ARGS={{ cs2_additional_args }} 
+      - CS2_CFG_URL={{ cs2_cfg_url }} 
+
+      # Game modes
+      - CS2_GAMEALIAS={{ cs2_gamealias }} 
+      - CS2_GAMETYPE={{ cs2_gametype }}
+      - CS2_GAMEMODE={{ cs2_gamemode }}
+      - CS2_MAPGROUP={{ cs2_mapgroup }} 
+      - CS2_STARTMAP={{ cs2_startmap }} 
+
+      # Workshop Maps
+      - CS2_HOST_WORKSHOP_COLLECTION={{ cs2_host_workshop_collection }} 
+      - CS2_HOST_WORKSHOP_MAP={{ cs2_host_workshop_map }} 
+
+      # Bots
+      - CS2_BOT_DIFFICULTY={{ cs2_bot_difficulty }} 
+      - CS2_BOT_QUOTA={{ cs2_bot_quota }}
+      - CS2_BOT_QUOTA_MODE={{ cs2_bot_quota_mode }} 
+
+      # TV
+      - TV_AUTORECORD={{ tv_autorecord }} 
+      - TV_ENABLE={{ tv_enable }}
+      - TV_PORT={{ tv_port }}
+      - TV_PW={{ tv_pw }}
+      - TV_RELAY_PW={{ tv_relay_pw }} 
+      - TV_MAXRATE={{ tv_maxrate }} 
+      - TV_DELAY={{ tv_delay }}
+
+      # Logs
+      - CS2_LOG={{ cs2_log }}
+      - CS2_LOG_MONEY={{ cs2_log_money }}
+      - CS2_LOG_DETAIL={{ cs2_log_detail }} 
+      - CS2_LOG_ITEMS={{ cs2_log_items }} 
+    volumes:
+      - {{ cs2_data_dir }}:/home/steam/cs2-dedicated/  
+    ports:
+      - "{{ cs2_port | default(27015) }}:27015/tcp"  # TCP
+      - "{{ cs2_port | default(27015) }}:27015/udp"  # UDP
+      - "{{ tv_port | default(27020) }}:27020/udp"  # UDP
+    stdin_open: true  # Add local console for docker attach
+    tty: true  # Add local console for docker attach
+
+volumes:
+  cs2-data:
